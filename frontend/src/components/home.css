@@ -1,0 +1,51 @@
+.nav{
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white !important;
+}
+
+.logo{
+    height: 30px;
+    width: auto;
+}
+
+.rendezvous{
+    font-family: 'Cinzel Decorative', cursive; 
+    color: white;
+    font-size: 100px;
+    padding-top: 100px;
+    text-shadow: 15px 15px 40px white;
+}
+.connect{
+    font-family: 'Qwitcher Grypen', cursive;
+    color: white;
+    font-size: 50px;
+    text-align: right;
+    padding-top: 100px;
+    padding-right: 150px;
+    padding-bottom: 130px;
+    text-shadow: 15px 15px 40px white
+}
+
+.about{
+    font-size: 100px;
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding-top: 100px;
+}
+
+.line {
+  background-color: rgba(6, 38, 103, 0.83);
+  min-height: 4.2vh;
+  border: 0px;
+  padding-top: 10px;
+}
+
+.desc{
+    font-size: 30px;
+    margin-left: 500px;
+    margin-right: 500px;
+    color: white;
+    padding-bottom: 300px;
+    text-align: center;
+}
