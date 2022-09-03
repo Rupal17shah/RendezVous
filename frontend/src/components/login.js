@@ -4,6 +4,7 @@ import Logo from "../Logo.png";
 import GoogleButton from "react-google-button";
 import ReactDOM from "react-dom";
 import GoogleLogin from 'react-google-login';
+import Navbar from "./navbar";
 
 export default function Login() {
   return (
@@ -15,35 +16,7 @@ export default function Login() {
           paddingBottom: "150px",
         }}
       >
-        <nav className="navbar">
-          <div className="nav">
-            <a href="/" className="navbar-brand navlink">
-              <img className="logo" src={Logo} alt="" />
-            </a>
-          </div>
-          <div className="nav">
-            <div className="nav">
-              <a className="navbar-brand" href="#">
-                Home
-              </a>
-            </div>
-            <div className="nav">
-              <a className="navbar-brand" href="#">
-                SignUp
-              </a>
-            </div>
-            <div className="nav">
-              <a className="navbar-brand" href="#">
-                Login
-              </a>
-            </div>
-            <div className="nav">
-              <a className="navbar-brand" href="#">
-                JoinMeet
-              </a>
-            </div>
-          </div>
-        </nav>
+        <Navbar/>
         <div className="box">
           <b>Login</b>
           <div className="name">
@@ -55,16 +28,16 @@ export default function Login() {
                       type="email"
                       id="form3Example3cg"
                       className="form-control form-control-lg"
-                      value="Your Email ID"
+                      placeholder="Your Email ID"
                     />
                   </div>
 
                   <div className="form-outline mb-4">
                     <input
-                      type="text"
+                      type="password"
                       id="form3Example4cg"
                       className="form-control form-control-lg"
-                      value="Your Password"
+                      placeholder="Your Password"
                     />
                   </div>
 

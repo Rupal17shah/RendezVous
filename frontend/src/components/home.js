@@ -2,6 +2,7 @@ import React from 'react'
 import "./home.css";
 import background from "../bg.png";
 import Logo from "../Logo.png"
+import Navbar from './navbar';
 
 export default function Home() {
     return (
@@ -13,36 +14,7 @@ export default function Home() {
           backgroundAttachment: "fixed",
         }}
       >
-        <nav className="navbar">
-          <div className="nav">
-            <a href="/" className="navbar-brand navlink">
-              <img className="logo" src={Logo} alt="" />
-            </a>
-          </div>
-          <div className="nav">
-            <div className="nav">
-              <a class="navbar-brand" href="/home">
-                Home
-              </a>
-            </div>
-            <div className="nav">
-              <a class="navbar-brand" href="/signup">
-                SignUp
-              </a>
-            </div>
-            <div className="nav">
-              <a class="navbar-brand" href="/login">
-                Login
-              </a>
-            </div>
-            <div className="nav">
-              <a class="navbar-brand" href="#">
-                JoinMeet
-              </a>
-            </div>
-          </div>
-        </nav>
-
+        <Navbar/>
         <center>
           <div className="rendezvous">
             WELCOME TO <br /> RENDEZVOUS
