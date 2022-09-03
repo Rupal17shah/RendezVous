@@ -1,15 +1,32 @@
 import "./signup.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../Logo.png";
 import GoogleButton from "react-google-button";
 import Navbar from "./navbar";
+import { registerWithEmailAndPassword, auth, signInWithGoogle } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [Img, setImg] = useState(Logo);
+  const [file, setFile] = useState(Logo);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [user, loading, error] = useAuthState(auth);
   const onImageChange = (e) => {
     const [file] = e.target.files;
     setImg(URL.createObjectURL(file));
+    setFile(file);
   };
+  useEffect(() => {
+    if (loading) return;
+    if (user){ 
+      return navigate("/join")
+    };
+  }, [user, loading]);
   return (
     <>
       <div
@@ -48,6 +65,8 @@ export default function Signup() {
                       id="form3Example1cg"
                       className="form-control form-control-lg"
                       placeholder="Your Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
@@ -57,6 +76,8 @@ export default function Signup() {
                       id="form3Example3cg"
                       className="form-control form-control-lg"
                       placeholder="Your Email ID"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -66,6 +87,8 @@ export default function Signup() {
                       id="form3Example4cg"
                       className="form-control form-control-lg"
                       placeholder="Your Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
@@ -75,6 +98,8 @@ export default function Signup() {
                       id="form3Example4cdg"
                       className="form-control form-control-lg"
                       placeholder="Confirm your Password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                   </div>
 
@@ -82,6 +107,14 @@ export default function Signup() {
                     <button
                       type="button"
                       className="btn btn-info btn-block btn-lg gradient-custom-4 text-body"
+                      onClick={() =>
+                        registerWithEmailAndPassword(
+                          name,
+                          email,
+                          password,
+                          file
+                        )
+                      }
                     >
                       Sign Up
                     </button>
@@ -89,7 +122,7 @@ export default function Signup() {
 
                   <p className="text-center text-muted mt-5 mb-0">
                     Have already an account?{" "}
-                    <a href="#!" className="fw-bold text-body">
+                    <a href="/login" className="fw-bold text-body">
                       <u>Login here</u>
                     </a>
                   </p>
@@ -105,9 +138,7 @@ export default function Signup() {
             <GoogleButton
               className="googlebtn"
               type="light"
-              onClick={() => {
-                console.log("Google button clicked");
-              }}
+              onClick={signInWithGoogle}
             />
           </center>
         </div>

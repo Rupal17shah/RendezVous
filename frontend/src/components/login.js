@@ -1,12 +1,22 @@
 import "./login.css";
-import React, { useState } from "react";
-import Logo from "../Logo.png";
+import React, { useState, useEffect } from "react";
 import GoogleButton from "react-google-button";
-import ReactDOM from "react-dom";
-import GoogleLogin from 'react-google-login';
 import Navbar from "./navbar";
+import { auth, signInWithGoogle, logInWithEmailAndPassword } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    if (loading) return;
+    if (user) {
+      return navigate("/join");
+    }
+  }, [user, loading]);
   return (
     <>
       <div
@@ -16,7 +26,7 @@ export default function Login() {
           paddingBottom: "150px",
         }}
       >
-        <Navbar/>
+        <Navbar />
         <div className="box">
           <b>Login</b>
           <div className="name">
@@ -29,6 +39,8 @@ export default function Login() {
                       id="form3Example3cg"
                       className="form-control form-control-lg"
                       placeholder="Your Email ID"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -38,6 +50,8 @@ export default function Login() {
                       id="form3Example4cg"
                       className="form-control form-control-lg"
                       placeholder="Your Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
@@ -45,6 +59,7 @@ export default function Login() {
                     <button
                       type="button"
                       className="btn btn-info btn-block btn-lg gradient-custom-4 text-body"
+                      onClick={() => logInWithEmailAndPassword(email, password)}
                     >
                       Login
                     </button>
@@ -52,7 +67,7 @@ export default function Login() {
 
                   <p className="text-center text-muted mt-5 mb-0">
                     Don't Have an account?{" "}
-                    <a href="#!" className="fw-bold text-body">
+                    <a href="/signup" className="fw-bold text-body">
                       <u>Register here</u>
                     </a>
                   </p>
@@ -61,16 +76,13 @@ export default function Login() {
             </div>
           </div>
         </div>
-        <div className="bttn">
-
-        </div>
+        <div className="bttn"></div>
         <div className="googlelogin">
           <center>
-            <GoogleButton className="googlebtn"
+            <GoogleButton
+              className="googlebtn"
               type="light"
-              onClick={() => {
-                console.log("Google button clicked");
-              }}
+              onClick={signInWithGoogle}
             />
           </center>
         </div>

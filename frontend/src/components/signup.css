@@ -65,7 +65,7 @@
   width: 100%;
   height: 106px;
   width: 106px;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
 }
 
 .picture-src {
