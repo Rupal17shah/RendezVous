@@ -194,7 +194,7 @@ export default function Signup() {
           sm={4}
           md={6}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/RLw-UC03Gwc)",
+            backgroundImage: "url(https://source.unsplash.com/smgTvepind4)",
             backgroundRepeat: "no-repeat",
             backgroundColor: "#fefefe",
             backgroundSize: "cover",

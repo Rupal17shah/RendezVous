@@ -18,7 +18,7 @@ export default function Home() {
         <Navbar />
         <center>
           <div className="welcometo">
-            WELCOME TO <br />
+            Welcome To <br />
           </div>
           <div className="rendezvous">RENDEZVOUS</div>
         </center>
