@@ -39,6 +39,8 @@
   color: white;
   font-family: "Barlow Condensed", sans-serif;
   padding-top: 100px;
+}
+
 .navbar{
     background-color: rgba(6, 38, 103, 0.83) !important;
 }
@@ -54,13 +56,12 @@
   background-color: rgba(6, 38, 103, 0.83);
   min-height: 4.2vh;
   border: 0px;
-  padding-top: 10px;
 }
 
 .desc {
   font-size: 30px;
-  margin-left: 40vh;
-  margin-right: 40vh;
+  margin-left: 30vw;
+  margin-right: 30vw;
   color: white;
   padding-bottom: 200px;
   text-align: center;
@@ -87,8 +88,8 @@
 
   .desc {
     font-size: 30px;
-    margin-left: 40vh;
-    margin-right: 40vh;
+    margin-left: 25vw;
+    margin-right: 25vw;
   }
 }
 
@@ -103,8 +104,8 @@
 
   .desc {
     font-size: 20px;
-    margin-left: 20vh;
-    margin-right: 20vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
   }
   .about {
     font-size: 40px;
@@ -134,12 +135,6 @@
   .connect {
     font-size: 18px;
   }
-}
-    margin-left: 500px;
-    margin-right: 500px;
-    color: white;
-    padding-bottom: 300px;
-    text-align: center;
 }
 
 .navbarlink a{
