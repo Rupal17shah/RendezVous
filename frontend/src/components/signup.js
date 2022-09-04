@@ -2,8 +2,8 @@ import "./signup.css";
 import React, { useState, useEffect } from "react";
 import Logo from "../Logo.png";
 import label from "../label.png";
-import GoogleButton from "react-google-button";
 import Navbar from "./navbar";
+
 import {
   registerWithEmailAndPassword,
   auth,

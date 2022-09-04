@@ -88,7 +88,7 @@ export default function Navbar() {
             </a>
           </li>
           {user ? <li className="nav-item navbarlink">
-            <a className="nav-link" href="/">
+            <a className="nav-link" href="/" onClick={logout}>
               Logout
             </a>
           </li> : <></>}
