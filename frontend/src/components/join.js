@@ -21,7 +21,7 @@ export default function Join() {
   };
   useEffect(() => {
     if (loading) return;
-    if (!user) return navigate("/");
+    if (!user) return navigate("/login");
     fetchUserName();
   }, [user, loading]);
   return (

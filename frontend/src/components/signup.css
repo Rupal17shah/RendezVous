@@ -5,16 +5,10 @@
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 20px;
   background-color: white;
-  margin-left: 500px;
-  margin-right: 500px;
   border-radius: 20px;
   border-width: 20px;
   border-color: #0e5a82;
   border-style: solid;
-}
-
-.navbar {
-  padding-bottom: 80px;
 }
 
 .name {
