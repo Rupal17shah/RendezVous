@@ -1,20 +1,42 @@
 import "./signup.css";
 import React, { useState, useEffect } from "react";
 import Logo from "../Logo.png";
+import label from "../label.png";
 import GoogleButton from "react-google-button";
 import Navbar from "./navbar";
-import { registerWithEmailAndPassword, auth, signInWithGoogle } from "../firebase";
+import {
+  registerWithEmailAndPassword,
+  auth,
+  signInWithGoogle,
+} from "../firebase";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  Snackbar,
+  Alert,
+  IconButton,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Google from "@mui/icons-material/Google";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const [Img, setImg] = useState(Logo);
+  const [Img, setImg] = useState(label);
   const [file, setFile] = useState(Logo);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showAlert, setAlert] = React.useState(false);
   const [user, loading, error] = useAuthState(auth);
   const onImageChange = (e) => {
     const [file] = e.target.files;
@@ -23,126 +45,163 @@ export default function Signup() {
   };
   useEffect(() => {
     if (loading) return;
-    if (user){ 
-      return navigate("/join")
-    };
+    if (user) {
+      return navigate("/join");
+    }
   }, [user, loading]);
   return (
     <>
-      <div
-        className="outer"
-        style={{
-          backgroundColor: "#15353d",
-          paddingBottom: "150px",
-        }}
-      >
-        <Navbar />
-        <div className="box">
-          <b>Sign Up</b>
-          <div className="name">
-            <div className="container">
-              <div className="picture-container">
-                <div className="picture">
-                  <img
-                    src={Img}
-                    className="picture-src"
-                    id="wizardPicturePreview"
-                    title=""
-                  />
-                  <input
-                    type="file"
-                    id="wizard-picture"
-                    onChange={onImageChange}
-                    className=""
-                  />
-                </div>
-                <h6 className="">Choose Picture</h6>
+      <Navbar />
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid item xs={12} sm={8} md={6} component={Paper} elevation={4}>
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={showAlert}
+          >
+            <Alert variant="filled" severity="error" elevation={10}>
+              Email Address alredy exists! Login to your account
+            </Alert>
+          </Snackbar>
+          <Box
+            sx={{
+              my: 8,
+              mx: 6,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5" sx={{ m: 1 }}>
+              Register
+            </Typography>
+            <label htmlFor="upload-photo">
+              <input
+                style={{ display: "none" }}
+                id="upload-photo"
+                name="upload-photo"
+                type="file"
+                onClick={onImageChange}
+              />
+              <IconButton component="span">
+                <Avatar
+                  alt="Profile Picture"
+                  src={Img}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    border: "0.1px solid lightgray",
+                  }}
+                />
+              </IconButton>
+            </label>
+            <Typography variant="caption">Profile Photo</Typography>
+            {/* <div className="picture">
+              <img
+                src={Img}
+                className="picture-src"
+                id="wizardPicturePreview"
+                title=""
+              />
+              <input type="file" onChange={onImageChange} />
+            </div> */}
+            <Box component="form" sx={{ mt: 1 }} noValidate>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Name"
+                type="text"
+                autoComplete="Name"
+                autoFocus
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Email Address"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                label="Confirm Password"
+                type="password"
+                autoComplete="current-password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Grid
+                container
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ p: 2 }}
+              >
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={() =>
+                      registerWithEmailAndPassword(name, email, password, file)
+                    }
+                  >
+                    Register
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    startIcon={<Google />}
+                    onClick={signInWithGoogle}
+                  >
+                    Sign in with Google
+                  </Button>
+                </Grid>
+              </Grid>
 
-                <form>
-                  <div className="form-outline mb-4">
-                    <input
-                      type="text"
-                      id="form3Example1cg"
-                      className="form-control form-control-lg"
-                      placeholder="Your Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input
-                      type="email"
-                      id="form3Example3cg"
-                      className="form-control form-control-lg"
-                      placeholder="Your Email ID"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input
-                      type="password"
-                      id="form3Example4cg"
-                      className="form-control form-control-lg"
-                      placeholder="Your Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input
-                      type="password"
-                      id="form3Example4cdg"
-                      className="form-control form-control-lg"
-                      placeholder="Confirm your Password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="d-flex justify-content-center">
-                    <button
-                      type="button"
-                      className="btn btn-info btn-block btn-lg gradient-custom-4 text-body"
-                      onClick={() =>
-                        registerWithEmailAndPassword(
-                          name,
-                          email,
-                          password,
-                          file
-                        )
-                      }
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-
-                  <p className="text-center text-muted mt-5 mb-0">
-                    Have already an account?{" "}
-                    <a href="/login" className="fw-bold text-body">
-                      <u>Login here</u>
-                    </a>
-                  </p>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bttn"></div>
-        <div className="googlelogin">
-          <center>
-            <GoogleButton
-              className="googlebtn"
-              type="light"
-              onClick={signInWithGoogle}
-            />
-          </center>
-        </div>
-      </div>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ p: 2 }}
+              >
+                <Link href="/login" variant="body2">
+                  {"Already have an account? Login"}
+                </Link>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={6}
+          sx={{
+            backgroundImage: "url(https://source.unsplash.com/RLw-UC03Gwc)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: "#fefefe",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Grid>
     </>
   );
 }

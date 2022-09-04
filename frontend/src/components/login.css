@@ -5,20 +5,23 @@
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 20px;
     background-color: white;
-    margin-left: 500px;
-    margin-right: 500px;
+    margin-left: 62vh;
+    margin-right: 62vh;
     border-radius: 20px;
     border-width: 20px;
     border-color: #0e5a82 ;
     border-style: solid;
     margin-top: 20px;
-    padding-bottom: 20px !important;
+    padding-bottom: 32px !important;
+    padding-top: 10px;
 }
 
 .name{
     font-size: 25px;
     margin-left: 30px;
+    padding-bottom: 30px;
 }
 .bttn{
-    height: 20px
+    height: 20px;
+    padding-bottom: 39px;
 }

@@ -49,12 +49,12 @@ export default function Navbar() {
     //     </div>
     //   </div>
     // </nav>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a href="/" className="navbar-brand navlink">
         <img className="logo" src={Logo} alt="" />
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -62,33 +62,33 @@ export default function Navbar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item navbarlink">
-            <a class="nav-link" href="/">
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item navbarlink">
+            <a className="nav-link" href="/">
               Home
             </a>
           </li>
-          {user ? <></> : <li class="nav-item navbarlink">
-            <a class="nav-link" href="/signup">
+          {user ? <></> : <li className="nav-item navbarlink">
+            <a className="nav-link" href="/signup">
               SignUp
             </a>
           </li>}
-          {user ? <></> : <li class="nav-item navbarlink">
-            <a class="nav-link" href="/login">
+          {user ? <></> : <li className="nav-item navbarlink">
+            <a className="nav-link" href="/login">
               Login
             </a>
           </li>}
-          <li class="nav-item navbarlink">
-            <a class="nav-link" href="/join">
+          <li className="nav-item navbarlink">
+            <a className="nav-link" href="/join">
               Join
             </a>
           </li>
-          {user ? <li class="nav-item navbarlink">
-            <a class="nav-link" href="/">
+          {user ? <li className="nav-item navbarlink">
+            <a className="nav-link" href="/">
               Logout
             </a>
           </li> : <></>}

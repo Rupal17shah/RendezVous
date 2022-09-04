@@ -1,7 +1,7 @@
 .box {
   color: #0a528e;
   text-align: center;
-  font-size: 80px;
+  font-size: 8vh;
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 20px;
   background-color: white;
@@ -15,13 +15,8 @@
   font-size: 25px;
   margin-left: 30px;
 }
-
-.picture-container {
-  position: relative;
-  cursor: pointer;
-  text-align: center;
-}
 .picture {
+  position: relative;
   width: 106px;
   height: 106px;
   background-color: #999999;

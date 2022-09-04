@@ -11,18 +11,16 @@ export default function Home() {
         style={{
           backgroundImage: `url(${background})`,
           backgroundSize: "cover",
-          backgroundRepeat:"no-repeat",
+          backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
         }}
       >
-        <Navbar/>
+        <Navbar />
         <center>
           <div className="welcometo">
-            WELCOME TO <br /> 
+            WELCOME TO <br />
           </div>
-          <div className="rendezvous">
-            RENDEZVOUS
-          </div>
+          <div className="rendezvous">RENDEZVOUS</div>
         </center>
         <b>
           <div className="connect">helps you connect...</div>
@@ -31,16 +29,17 @@ export default function Home() {
         <footer>
           <div className="about">
             <center>About Us</center>
-           
           </div>
-              <p className="desc">
-                This is a web application for the hosting online video
-                    conferencing and online meets<br />
-                    <br/>   
-                    CONTRIBUTERS<br/>
-                    Krish Agrwal <br/>
-                    Rupal Shah
-              </p>
+          <p className="desc">
+            This is a web application for the hosting online video conferencing
+            and online meets
+            <br />
+            <br />
+            CONTRIBUTERS
+            <br />
+            Krish Agrwal <br />
+            Rupal Shah
+          </p>
         </footer>
       </div>
     );
