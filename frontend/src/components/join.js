@@ -67,8 +67,11 @@ class Join extends Component {
       username: "",
     };
     connections = {};
+  }
 
+  componentDidMount(){
     this.getPermissions();
+    
   }
 
   getPermissions = async () => {
@@ -354,6 +357,7 @@ class Join extends Component {
   };
 
   connectToSocketServer = () => {
+    console.log("Hello")
     socket = io.connect(server_url, { secure: true });
 
     socket.on("signal", this.gotMessageFromServer);
@@ -464,6 +468,7 @@ class Join extends Component {
         }
       });
     });
+    console.log(socketId)
   };
 
   silence = () => {
