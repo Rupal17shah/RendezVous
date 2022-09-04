@@ -11,13 +11,17 @@ export default function Home() {
         style={{
           backgroundImage: `url(${background})`,
           backgroundSize: "cover",
+          backgroundRepeat:"no-repeat",
           backgroundAttachment: "fixed",
         }}
       >
         <Navbar/>
         <center>
+          <div className="welcometo">
+            WELCOME TO <br /> 
+          </div>
           <div className="rendezvous">
-            WELCOME TO <br /> RENDEZVOUS
+            RENDEZVOUS
           </div>
         </center>
         <b>
