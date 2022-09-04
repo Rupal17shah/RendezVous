@@ -40,7 +40,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/join" element={<Join />} />
+            <Route path="/join/:url" element={<Join />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

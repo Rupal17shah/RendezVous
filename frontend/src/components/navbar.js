@@ -6,49 +6,12 @@ import { auth, logout } from "../firebase";
 
 export default function Navbar() {
   const [user, loading, error] = useAuthState(auth);
+  const [url,setUrl] = React.useState("");
+  const handleUrl =() =>{
+    var url = Math.random().toString(36).substring(2, 10)
+    window.location.href = `/join/${url}`
+  }
   return (
-    // <nav className="navbar">
-    //   <div className="nav">
-    //     <a href="/" className="navbar-brand navlink">
-    //       <img className="logo" src={Logo} alt="" />
-    //     </a>
-    //   </div>
-    //   <div className="nav">
-    //     <div className="nav">
-    //       <a className="navbar-brand" href="/">
-    //         Home
-    //       </a>
-    //     </div>
-    //     {user ? (
-    //       <></>
-    //     ) : (
-    //       <div className="nav">
-    //         <a className="navbar-brand" href="/signup">
-    //           SignUp
-    //         </a>
-    //       </div>
-    //     )}
-    //     {user ? (
-    //       <></>
-    //     ) : (
-    //       <div className="nav">
-    //         <a className="navbar-brand" href="/login">
-    //           Login
-    //         </a>
-    //       </div>
-    //     )}
-    //     <div className="nav">
-    //       <a className="navbar-brand" href="/join">
-    //         JoinMeet
-    //       </a>
-    //     </div>
-    //     <div className="nav">
-    //       <a className="navbar-brand" href="/" onClick={logout}>
-    //         Logout
-    //       </a>
-    //     </div>
-    //   </div>
-    // </nav>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <a href="/" className="navbar-brand navlink">
         <img className="logo" src={Logo} alt="" />
@@ -82,8 +45,8 @@ export default function Navbar() {
               Login
             </a>
           </li>}
-          <li className="nav-item navbarlink">
-            <a className="nav-link" href="/join">
+          <li className="nav-item navbarlink" style={{cursor:"pointer"}}>
+            <a className="nav-link" onClick={handleUrl}>
               Join
             </a>
           </li>
