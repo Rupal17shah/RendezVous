@@ -32,6 +32,7 @@ messages = {};
 timeOnline = {};
 
 io.on("connection", (socket) => {
+  console.log("hello")
   socket.on("join-call", (path) => {
     if (connections[path] === undefined) {
       connections[path] = [];
