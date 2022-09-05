@@ -20,7 +20,6 @@ import {
   BottomNavigationAction,
   IconButton,
 } from "@mui/material";
-import { white, red } from "@mui/material/colors";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import MicIcon from "@mui/icons-material/Mic";
