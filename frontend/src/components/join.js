@@ -74,22 +74,22 @@ export default function Join() {
     setMsgText("");
   };
 
-  const fetchUserName = async () => {
-    try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
-      setUserData(data);
-    } catch (err) {
-      console.error(err);
-      alert("An error occured while fetching user data");
-    }
-  };
+  // const fetchUserName = async () => {
+  //   try {
+  //     const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+  //     const doc = await getDocs(q);
+  //     const data = doc.docs[0].data();
+  //     setUserData(data);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("An error occured while fetching user data");
+  //   }
+  // };
 
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
-    fetchUserName();
+    // fetchUserName();
     const unsub = () => {
       socket.current = io.connect(
         "https://pure-peak-21973.herokuapp.com/"
@@ -121,10 +121,10 @@ export default function Join() {
               roomID,
               user: user
                 ? {
-                    uid: userData?.uid,
-                    email: userData?.email,
-                    name: userData?.name,
-                    photoURL: userData?.profileImage,
+                    uid: user?.uid,
+                    email: user?.email,
+                    name: user?.name,
+                    photoURL: user?.profileImage,
                   }
                 : null,
             });
@@ -257,7 +257,7 @@ export default function Join() {
               {!videoActive && (
                 <div className="absolute top-0 left-0 bg-lightGray h-full w-full flex items-center justify-center">
                   <img
-                    className="h-[35%] max-h-[150px] w-auto rounded-full aspect-square object-cover"
+                  
                     src={userData?.profileImage}
                     alt={userData?.name}
                   />
@@ -270,7 +270,7 @@ export default function Join() {
           </Grid>
         </div>
 
-        {/* <footer
+        <footer
           className="fixed-bottom"
           style={{
             padding: "2vh",
@@ -289,9 +289,19 @@ export default function Join() {
                 aria-label="videocam"
                 size="20px"
                 sx={{ color: "white", border: "1px solid white" }}
-                onClick={this.handleVideo}
+                onClick={() => {
+                  const videoTrack = localStream
+                    .getTracks()
+                    .find((track) => track.kind === "video");
+                  if (videoActive) {
+                    videoTrack.enabled = false;
+                  } else {
+                    videoTrack.enabled = true;
+                  }
+                  setVideoActive(!videoActive);
+                }}
               >
-                {this.state.video ? <VideocamIcon /> : <VideocamOffIcon />}
+                {videoActive ? <VideocamIcon /> : <VideocamOffIcon />}
               </IconButton>
             </Grid>
 
@@ -300,9 +310,20 @@ export default function Join() {
                 aria-label="mic"
                 size="20px"
                 sx={{ color: "white", border: "1px solid white" }}
-                onClick={this.handleAudio}
+                onClick={() => {
+                  const audio =
+                    localVideo.current.srcObject.getAudioTracks()[0];
+                  if (micOn) {
+                    audio.enabled = false;
+                    setMicOn(false);
+                  }
+                  if (!micOn) {
+                    audio.enabled = true;
+                    setMicOn(true);
+                  }
+                }}
               >
-                {this.state.audio ? <MicIcon /> : <MicIconOff />}
+                {micOn ? <MicIcon /> : <MicIconOff />}
               </IconButton>
             </Grid>
 
@@ -311,13 +332,16 @@ export default function Join() {
                 aria-label="callend"
                 size="20px"
                 sx={{ color: "red", border: "1px solid red" }}
-                onClick={this.handleEndCall}
+                onClick={() => {
+                  navigate("/");
+                  window.location.reload();
+                }}
               >
                 <CallEnd />
               </IconButton>
             </Grid>
 
-            <Grid item>
+            {/* <Grid item>
               <IconButton
                 aria-label="delete"
                 size="20px"
@@ -330,7 +354,7 @@ export default function Join() {
                   <StopScreenShareIcon />
                 )}
               </IconButton>
-            </Grid>
+            </Grid> */}
 
             <Grid item>
               <IconButton
@@ -343,7 +367,7 @@ export default function Join() {
               </IconButton>
             </Grid>
           </Grid>
-        </footer> */}
+        </footer>
       </div>
     </>
   );

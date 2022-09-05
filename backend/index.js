@@ -3,121 +3,59 @@ const http = require("http");
 var cors = require("cors");
 
 const app = express();
+const server = http.createServer(app);
 
-const bodyParser = require("body-parser");
-const path = require("path");
-const xss = require("xss");
+const socket = require("socket.io");
+const io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.ORIGIN || "*",
+  },
+});
 
-var server = http.createServer(app);
-var io = require("socket.io")(server);
+const users = {};
 
-app.use(cors());
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(__dirname + "/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname + "/build/index.html"));
-  });
-}
-
-app.set("port", process.env.PORT || 4001);
-
-sanitizeString = (str) => {
-  return xss(str);
-};
-
-connections = {};
-messages = {};
-timeOnline = {};
+const socketRoom = {};
 
 io.on("connection", (socket) => {
-  console.log("hello")
-  socket.on("join-call", (path) => {
-    if (connections[path] === undefined) {
-      connections[path] = [];
+  socket.on("join-call", (roomId, user) => {
+    if (users[roomId]) {
+      users[roomId].push({ userId: socket.id, user });
+    } else {
+      users[roomId] = [{ userId: socket.id, user }];
     }
-    connections[path].push(socket.io);
-    timeOnline[socket.id] = new Date();
-    for (let a = 0; a < connections[path].length; ++a) {
-      io.to(connections[path][a]).emit(
-        "user-joined",
-        socket.id,
-        connections[path]
-      );
-    }
-    if (messages[path] !== undefined) {
-      for (let a = 0; a < messages[path].length; ++a) {
-        io.to(socket.id).emit(
-          "chat-message",
-          messages[path][a]["data"],
-          messages[path][a]["sender"],
-          messages[path][a]["socket-id-sender"]
-        );
-      }
-    }
-    console.log(path, connections[path]);
+    socketRoom[socket.id] = roomId;
+    const usersInRoom = users[roomId].filter(
+      (user) => user.userId !== socket.id
+    );
+    socket.emit("all-users", usersInRoom);
   });
-  socket.on("signal", (toId, message) => {
-    io.to(toId).emit("signal", socket.id, message);
+  socket.on("sending signal", (payload) => {
+    io.to(payload.userToSignal).emit("user joined", {
+      signal: payload.signal,
+      callerID: payload.callerID,
+      user: payload.user,
+    });
   });
-  socket.on("chat-message", (data, sender) => {
-    data = sanitizeString(data);
-    sender = sanitizeString(sender);
-    var key;
-    var ok = false;
-    for (const [k, v] of Object.entries(connections)) {
-      for (let a = 0; a < v.length; ++a) {
-        if (v[a] === socket.id) {
-          key = k;
-          ok = true;
-        }
-      }
-    }
-    if (ok === true) {
-      if (messages[key] === undefined) {
-        messages[key];
-      }
-      messages[key].push({
-        sender: sender,
-        data: data,
-        "socket-id-sender": socket.id,
-      });
-      console.log("message", key, ":", sender, data);
-      for (let a = 0; a < connections[key].length; ++a) {
-        io.to(connections[key][a]).emit(
-          "chat-message",
-          data,
-          sender,
-          socket.id
-        );
-      }
-    }
+  socket.on("returning signal", (payload) => {
+    io.to(payload.callerID).emit("receiving return", {
+      signal: payload.signal,
+      id: socket.id,
+    });
   });
-  socket.on("disconnet", () => {
-    var diffTime = Math.abs(timeOnline[socket.id] - new Date());
-    var key;
-    for (const [k, v] of JSON.parse(
-      JSON.stringify(Object.entries(connections))
-    )) {
-      for (let a = 0; a < v.length; ++a) {
-        if (v[a] === socket.id) {
-          key = k;
-          for (let a = 0; a < connections[key].length; ++a) {
-            io.to(connections[key][a]).emit("user-left", socket.id);
-          }
-          var index = connections[key].indexOf(socket.id);
-          connections[key].splice(index, 1);
-          console.log(key, socket.id, Math.ceil(diffTime / 1000));
-          if (connections[key].length === 0) {
-            delete connections[key];
-          }
-        }
-      }
+  socket.io("send message", (payload) => {
+    io.emit("message", payload);
+  });
+  socket.io("disconnect", () => {
+    const roomId = socketRoom[socket.id];
+    let room = users[roomId];
+    if (room) {
+      room = room.filter((item) => item.userId !== socket.id);
+      users[roomId] = room;
     }
+    socket.broadcast.emit("user-left", socket.id);
   });
 });
 
-server.listen(app.get("port"), () => {
-  console.log("listening on", app.get("port"));
-});
+server.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
