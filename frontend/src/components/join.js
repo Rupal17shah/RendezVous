@@ -1,4 +1,5 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../firebase";
@@ -30,6 +31,8 @@ import CallEnd from "@mui/icons-material/CallEnd";
 import Chat from "@mui/icons-material/Chat";
 import io from "socket.io-client";
 import { Row } from "reactstrap";
+import Peer from "simple-peer";
+import Card from "./card";
 
 export default function Join() {
   const [loading2, setLoading] = useState(true);
@@ -38,7 +41,6 @@ export default function Join() {
   const [micOn, setMicOn] = useState(true);
   const [showChat, setshowChat] = useState(true);
   const [share, setShare] = useState(false);
-  const [joinSound] = useState(new Audio(joinSFX));
   const { roomID } = useParams();
   const chatScroll = useRef();
   const [pin, setPin] = useState(false);
@@ -90,14 +92,12 @@ export default function Join() {
     fetchUserName();
     const unsub = () => {
       socket.current = io.connect(
-        "http://localhost:5000"
+        "https://pure-peak-21973.herokuapp.com/"
         // process.env.SOCKET_BACKEND_URL || "http://localhost:5000"
       );
       socket.current.on("message", (data) => {
-        const audio = new Audio(msgSFX);
         if (user?.uid !== data.user.id) {
           console.log("send");
-          audio.play();
         }
         const msg = {
           send: user?.uid === data.user.id,
@@ -172,8 +172,6 @@ export default function Join() {
             });
 
             socket.current.on("user-left", (id) => {
-              const audio = new Audio(leaveSFX);
-              audio.play();
               const peerObj = peersRef.current.find((p) => p.peerID === id);
               if (peerObj) peerObj.peer.destroy();
               const peers = peersRef.current.filter((p) => p.peerID !== id);
@@ -228,7 +226,7 @@ export default function Join() {
         <div className="container">
           <div style={{ paddingTop: "20px" }}>
             <input value={window.location.href} disable="true"></input>
-            <Button
+            {/* <Button
               style={{
                 backgroundColor: "#3f51b5",
                 color: "whitesmoke",
@@ -240,32 +238,35 @@ export default function Join() {
               onClick={this.copyUrl}
             >
               Copy invite link
-            </Button>
+            </Button> */}
           </div>
 
-          <Row
-            id="main"
-            className="flex-container"
-            style={{ margin: 0, padding: 0 }}
-          >
-            <video
-              id="my-video"
-              ref={this.localVideoref}
-              autoPlay
-              muted
-              style={{
-                borderStyle: "solid",
-                borderColor: "#bdbdbd",
-                margin: "10px",
-                objectFit: "fill",
-                width: "100%",
-                height: "100%",
-              }}
-            ></video>
-          </Row>
+          <Grid container spacing={{ xs: 3, md: 2 }} columns={{ xs: 1, sm: 4 }}>
+            <Grid item xs={2}>
+              <video
+                ref={localVideo}
+                muted
+                autoPlay
+                controls={false}
+                width="100%"
+              />
+              {!videoActive && (
+                <div className="absolute top-0 left-0 bg-lightGray h-full w-full flex items-center justify-center">
+                  <img
+                    className="h-[35%] max-h-[150px] w-auto rounded-full aspect-square object-cover"
+                    src={userData?.profileImage}
+                    alt={userData?.name}
+                  />
+                </div>
+              )}
+            </Grid>
+            {peers.map((peer) => (
+              <Card key={peer?.peerID} user={peer?.user} peer={peer?.peer} />
+            ))}
+          </Grid>
         </div>
 
-        <footer
+        {/* <footer
           className="fixed-bottom"
           style={{
             padding: "2vh",
@@ -338,7 +339,7 @@ export default function Join() {
               </IconButton>
             </Grid>
           </Grid>
-        </footer>
+        </footer> */}
       </div>
     </>
   );
