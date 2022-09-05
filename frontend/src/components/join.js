@@ -222,7 +222,10 @@ export default function Join() {
   };
   return (
     <>
-      <div>
+      <div style={{
+        backgroundColor: "#041828",
+        width: "100%",
+    height:"100%"  }}>
         <div className="container">
           <div style={{ paddingTop: "20px" }}>
             <input value={window.location.href} disable="true"></input>
@@ -249,6 +252,7 @@ export default function Join() {
                 autoPlay
                 controls={false}
                 width="100%"
+                height="80%"
               />
               {!videoActive && (
                 <div className="absolute top-0 left-0 bg-lightGray h-full w-full flex items-center justify-center">

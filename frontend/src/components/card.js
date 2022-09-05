@@ -30,7 +30,7 @@ export default function Card({ user, micActive, peer }) {
 
   return (
     <Grid item xs={2}>
-      <video ref={videoRef} muted autoPlay controls={false} width="100%" />
+      <video ref={videoRef} muted autoPlay controls={false} width="100%" height="80%"/>
       {!videoActive && (
         <div className="absolute top-0 left-0 bg-lightGray h-full w-full flex items-center justify-center">
           <img
