@@ -46,7 +46,7 @@ export default function Signup() {
   useEffect(() => {
     if (loading) return;
     if (user) {
-      return navigate("/join");
+      return navigate("/");
     }
   }, [user, loading]);
   return (

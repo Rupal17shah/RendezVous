@@ -7,7 +7,6 @@ import Login from "./components/login";
 import Signup from "./components/signup";
 import Join from "./components/join";
 
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -41,7 +40,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/join/:url" element={<Join />} />
+            <Route path="/join/:roomID" element={<Join />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

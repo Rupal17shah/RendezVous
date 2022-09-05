@@ -29,7 +29,7 @@ export default function Login() {
   useEffect(() => {
     if (loading) return;
     if (user) {
-      return navigate("/join");
+      return navigate("/");
     }
   }, [user, loading]);
   return (

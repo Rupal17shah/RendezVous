@@ -4,6 +4,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db, logout } from "../firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
+import CopyAllIcon from "@mui/icons-material/CopyAll";
+
 import Navbar from "./navbar";
 import {
   Avatar,
@@ -33,6 +35,7 @@ import io from "socket.io-client";
 import { Row } from "reactstrap";
 import Peer from "simple-peer";
 import Card from "./card";
+import "./join.css";
 
 export default function Join() {
   const [loading2, setLoading] = useState(true);
@@ -74,22 +77,22 @@ export default function Join() {
     setMsgText("");
   };
 
-  // const fetchUserName = async () => {
-  //   try {
-  //     const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-  //     const doc = await getDocs(q);
-  //     const data = doc.docs[0].data();
-  //     setUserData(data);
-  //   } catch (err) {
-  //     console.error(err);
-  //     alert("An error occured while fetching user data");
-  //   }
-  // };
+  const fetchUserName = async () => {
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
+      setUserData(data);
+    } catch (err) {
+      console.error(err);
+      // alert("An error occured while fetching user data");
+    }
+  };
 
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/login");
-    // fetchUserName();
+    fetchUserName();
     const unsub = () => {
       socket.current = io.connect(
         "https://pure-peak-21973.herokuapp.com/"
@@ -221,15 +224,24 @@ export default function Join() {
     return peer;
   };
   return (
-    <>
-      <div style={{
-        backgroundColor: "#041828",
-        width: "100%",
-    height:"100%"  }}>
-        <div className="container">
-          <div style={{ paddingTop: "20px" }}>
-            <input value={window.location.href} disable="true"></input>
-            {/* <Button
+    <div className="main-page" style={{ overflow: "hidden" }}>
+      <header
+        className=""
+        style={{
+          height: "15vh",
+          backgroundColor: "#010817",
+        }}
+      >
+        <Grid
+          container
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ py: 2, pb: 10 }}
+        >
+          <Grid item>
+            <Button
               style={{
                 backgroundColor: "#3f51b5",
                 color: "whitesmoke",
@@ -238,12 +250,22 @@ export default function Join() {
                 width: "120px",
                 fontSize: "10px",
               }}
-              onClick={this.copyUrl}
+              onClick={() =>
+                navigator.clipboard.writeText(window.location.href)
+              }
             >
               Copy invite link
-            </Button> */}
-          </div>
-
+            </Button>
+          </Grid>
+        </Grid>
+      </header>
+      <div
+        style={{
+          backgroundColor: "#041828",
+          height: "100vh",
+        }}
+      >
+        <div className="container">
           <Grid container spacing={{ xs: 3, md: 2 }} columns={{ xs: 1, sm: 4 }}>
             <Grid item xs={2}>
               <video
@@ -256,11 +278,7 @@ export default function Join() {
               />
               {!videoActive && (
                 <div className="absolute top-0 left-0 bg-lightGray h-full w-full flex items-center justify-center">
-                  <img
-                  
-                    src={userData?.profileImage}
-                    alt={userData?.name}
-                  />
+                  <img src={userData?.profileImage} alt={userData?.name} />
                 </div>
               )}
             </Grid>
@@ -274,7 +292,7 @@ export default function Join() {
           className="fixed-bottom"
           style={{
             padding: "2vh",
-            backgroundColor: "#062667",
+            backgroundColor: "#010817",
           }}
         >
           <Grid
@@ -304,6 +322,19 @@ export default function Join() {
                 {videoActive ? <VideocamIcon /> : <VideocamOffIcon />}
               </IconButton>
             </Grid>
+            <Grid item>
+              <IconButton
+                aria-label="callend"
+                size="20px"
+                sx={{ color: "red", border: "1px solid red" }}
+                onClick={() => {
+                  navigate("/");
+                  window.location.reload();
+                }}
+              >
+                <CallEnd />
+              </IconButton>
+            </Grid>
 
             <Grid item>
               <IconButton
@@ -327,20 +358,6 @@ export default function Join() {
               </IconButton>
             </Grid>
 
-            <Grid item>
-              <IconButton
-                aria-label="callend"
-                size="20px"
-                sx={{ color: "red", border: "1px solid red" }}
-                onClick={() => {
-                  navigate("/");
-                  window.location.reload();
-                }}
-              >
-                <CallEnd />
-              </IconButton>
-            </Grid>
-
             {/* <Grid item>
               <IconButton
                 aria-label="delete"
@@ -355,20 +372,9 @@ export default function Join() {
                 )}
               </IconButton>
             </Grid> */}
-
-            <Grid item>
-              <IconButton
-                aria-label="delete"
-                size="20px"
-                sx={{ color: "white", border: "1px solid white" }}
-                onClick={null}
-              >
-                <Chat />
-              </IconButton>
-            </Grid>
           </Grid>
         </footer>
       </div>
-    </>
+    </div>
   );
 }
